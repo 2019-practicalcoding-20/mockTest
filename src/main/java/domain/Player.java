@@ -5,11 +5,10 @@ import lombok.Data;
 
 @AllArgsConstructor
 @Data
-public class Student {
+public class Player {
     public String name;
-    public int studentNum;
+    public int playerNum;
     public int age;
     public String gender;
-    public String schoolName;
-    //public int grade;
+    public String clanName;
 }
