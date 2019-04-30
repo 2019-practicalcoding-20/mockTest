@@ -42,9 +42,8 @@ public class PlayerServiceTest{
     @Test
     public void whenBringPlayerNum_haveToReturnZero(){
         Player player = mock(Player.class);
-
-        when(player.getName()).thenReturn("Zero");
-        assertThat(player.getName(), Is.is("Zero"));
+        when(player.getPlayerNum()).thenReturn(0);
+        assertThat(player.getPlayerNum(), Is.is(0));
     }
 
     @Test
@@ -71,7 +70,7 @@ public class PlayerServiceTest{
     }
 
     @Test
-    public void veryfiySizeOfTheObject_ExecuteOnce(){
+    public void verifySizeOfTheObject_ExecuteOnce(){
         List<Player> players = mock(ArrayList.class);
 
         Player player = mock(Player.class);
@@ -85,5 +84,38 @@ public class PlayerServiceTest{
 
         int playerSize = players.size();
         verify(players, times(1)).size();
+
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void throwIlligalArgumentExceptionWhenSetNameWithNull(){
+        Player Player = mock(Player.class);
+
+        doThrow(new IllegalArgumentException()).when(Player).setName(eq(null));
+        Player.setName(null);
+    }
+
+    @Test
+    public void mockPlayerServiceAndCallMethod() {
+        when(playerService.findByName(anyString())).thenReturn(new Player("Player01", 0, 5,null,null));
+        String championName = playerService.findByName("Player01").getName();
+        assertThat(championName, Is.is("Player01"));
+        verify(playerRepository, atMost(1)).findByPlayerName(anyString());
+    }
+    @Test
+    public void whenSearchPlayer01_returnAge0() {
+        when(playerService.findByName("Player01")).thenReturn(new Player("Player01",	0,0,null,null));
+        Player player = playerService.findByName("Player01");
+        assertThat(player.getAge(), Is.is(0));
+    }
+    @Test
+    public void verifyFindByNameCalled() {
+        //given
+        given(playerRepository.findByPlayerName("Player01")).willReturn(new Player("Player01",0,0,null,null));
+        //when
+        Player player = playerService.findByName("Player01");
+        //then
+        verify(playerRepository, atLeast(1)).findByPlayerName(anyString());
+        assertThat(player.getName(), Is.is("Player01"));
     }
 }

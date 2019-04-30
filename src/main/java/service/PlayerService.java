@@ -1,6 +1,5 @@
 package service;
 
-
 import domain.Player;
 import repository.PlayerRepository;
 
@@ -9,18 +8,21 @@ import java.util.List;
 public class PlayerService {
     private final PlayerRepository playerRepository;
 
-    public PlayerService(PlayerRepository mockPlaysers) {
-        this.playerRepository= mockPlaysers;
+    public PlayerService(PlayerRepository mockPlayers) {
+        this.playerRepository= mockPlayers;
     }
 
-    public List<Player> showAllPlaysers() {
+    public List<Player> showAllPlayers() {
         return playerRepository.showAll();
     }
+    public Player findByName(String name) {
+    	return playerRepository.findByPlayerName(name);
+    }
 
-    public Player findByPlayserNum(int PlayerNum)
+    public Player findByPlayerNum(int playerNum)
     {
-        Player playser = playerRepository.findByPlayerNum(PlayerNum);
-        return playser;
+        Player player = playerRepository.findByPlayerNum(playerNum);
+        return player;
     }
 
     public void addPlayer(Player player)
